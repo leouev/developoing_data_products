@@ -1,0 +1,36 @@
+---
+title: "Where to find Charizard"
+author: "Youyi Liu"
+date: "9/5/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+I came up this idea after taking the Coursera's Developing Data Products Course. I use the latitude and longtitude location data of Volcanoes in the World thanks to Oregon State Universitie's Research. The raw table could be find at http://volcano.oregonstate.edu/volcano_table. Then I made my customized marker of the Charizard. 
+
+In the future we may apply more pokemons on the map!
+
+## Charizard Locations
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(leaflet)
+volcanos <- read.csv("volcano.csv", sep = ",")
+Charizard <- makeIcon(
+        iconUrl = "https://cdn.bulbagarden.net/upload/7/7e/006Charizard.png",
+        iconWidth = 31*215/230, iconHeight = 31,
+        iconAnchorX = 31*215/230/2, iconAnchorY = 16
+)
+
+CharizardLatLong <- data.frame(
+        lat = volcanos$Latitude..dd.,
+        lng = volcanos$Longitude..dd.
+)
+
+CharizardLatLong %>%
+        leaflet() %>%
+        addTiles() %>%
+        addMarkers(icon = Charizard, popup = "Charizard", clusterOptions = markerClusterOptions())
+        
+```
